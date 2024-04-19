@@ -178,10 +178,6 @@ class LoginClass(QMainWindow, login_form_class) :
                 reset(200)
                 
                 mainWindow.show()
-                
-                # mainWindow.seiChg()
-                # mainWindow.selection_model = mainWindow.TV_inven.selectionModel()
-                # mainWindow.selection_model.selectionChanged.connect(mainWindow.inven_selection_Chg)
             
                 mainWindow.game_Start()
                 
@@ -265,6 +261,18 @@ class MainClass(QMainWindow, main_form_class) :
         self.currentMap_action()
         
         self.generate_Btn_for_map()
+        
+    def all_setDisabled(self):
+        self.scrollArea.setDisabled(True)
+        self.tabW_main.setDisabled(True)
+        self.Btn_save.setDisabled(True)
+        self.Btn_cheat_item.setDisabled(True)
+        
+    def all_setEnabled(self):
+        self.scrollArea.setEnabled(True)
+        self.tabW_main.setEnabled(True)
+        self.Btn_save.setEnabled(True)
+        self.Btn_cheat_item.setEnabled(True)
         
     def cheat_random_item(self):
         global player
@@ -635,6 +643,7 @@ class MainClass(QMainWindow, main_form_class) :
                             for k in magic_scroll:
                                 if str(k[0]) == text:
                                     nitem.마법부여(item, k[1], self)
+                                    player.인벤토리.remove(k[1])
                                     
                         else:
                             QMessageBox.information(self, '마법부여 없음.', '해당 마법부여는 존재하지 않습니다.')
@@ -837,6 +846,7 @@ class MainClass(QMainWindow, main_form_class) :
         global player
         self.TB_main.clear()
         self.clear_scrollArea()
+        self.all_setDisabled()
         
         self.TB_main.append('휴식중.')
         reset(1000)
@@ -852,6 +862,7 @@ class MainClass(QMainWindow, main_form_class) :
         
         reset(1000)
         
+        self.all_setEnabled()
         self.currentMap_action()
         self.generate_Btn_for_map()
         
@@ -982,6 +993,7 @@ class MainClass(QMainWindow, main_form_class) :
     def skill_run(self):
         
         global 몬스터들
+        self.all_setDisabled()
         
         self.TB_main.append('도망중입니다. =3')
         reset(400)
@@ -993,6 +1005,7 @@ class MainClass(QMainWindow, main_form_class) :
         if random.random() * 100 <= 50:
             self.TB_main.append('도망에 성공했습니다.')
             reset(400)
+            self.all_setEnabled()
             
             self.currentMap_action()          
             self.clear_scrollArea()
@@ -1001,6 +1014,7 @@ class MainClass(QMainWindow, main_form_class) :
         else:
             self.TB_main.append('도망에 실패했습니다.')
             reset(400)
+            self.all_setEnabled()
             
             self.battle_monsters_turn(몬스터들)
             self.seiChg()

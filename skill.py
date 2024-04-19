@@ -42,6 +42,9 @@ class Skill:
         self.공격횟수 = 공격횟수
         
     def 시전(self, 시전자, 대상, window):
+        
+        window.all_setDisabled()
+        
         데미지 = 0
         데미지 += self.데미지_공격력 * 시전자.공격력
         데미지 += self.데미지_힘 * 시전자.힘
@@ -105,6 +108,8 @@ class Skill:
                 대상.중독 += self.중독량
                 window.TB_main.append('{} (이)가 중독되었습니다. (현재 중독량: {})'.format(대상.이름, 대상.중독))
                 reset(500)
+                
+        window.all_setEnabled()
         
 skill_list = {
     '주먹질':Skill('주먹질', '물리', '퍽 ! 퍽 !', '플레이어', 데미지_공격력=0.4, 데미지_힘=0.6),
