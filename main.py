@@ -1,6 +1,7 @@
 #-*- coding: utf-8 -*-
 
 from os.path import exists
+from os import makedirs
 import sys
 import pickle
 from PyQt5.QtGui import QShowEvent
@@ -166,6 +167,10 @@ class LoginClass(QMainWindow, login_form_class) :
         else:
             id = self.input_id.text()
             
+            
+            if not exists('./유저데이터'):
+                makedirs('./유저데이터')
+                
             # 유저데이터 폴더에 이름이 플레이어 아이디인 pickle 이 없으면 생성.
             if not exists('./유저데이터/{}.pickle'.format(id)):
                 
@@ -824,6 +829,7 @@ class MainClass(QMainWindow, main_form_class) :
         global player
         self.TB_main.clear()
         self.clear_scrollArea()
+        self.all_setDisabled()
         
         self.TB_main.append('탐색중.')
         reset(1000)
@@ -833,6 +839,8 @@ class MainClass(QMainWindow, main_form_class) :
         reset(1000)
         self.TB_main.append(' < !!! > ')
         reset(1000)
+        
+        self.all_setEnabled()
         
         mon_num = random.choice(player.맵.몬스터조우수)
         mon = []
@@ -930,6 +938,8 @@ class MainClass(QMainWindow, main_form_class) :
         global 몬스터들
         global player
         death = 0
+        
+        self.all_setEnabled()
         
         if player.체력 <= 0:
             self.TB_main.append('플레이어 사망...')
@@ -1231,6 +1241,8 @@ class MainClass(QMainWindow, main_form_class) :
                     
                 else:
                     QMessageBox.information(self, '돈 없음.', '도박할 돈이 없네...')
+                
+                self.seiChg()
             except:
                 QMessageBox.information(self, '오류', '잘못된 선택입니다.')
         
